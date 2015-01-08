@@ -8,4 +8,4 @@ Provide an easy way for editors to copy the sourcecode of the page for the use i
 ### Note !
 This Inputfield should **not be used** in the page template directly. _(could give some “funky” results)_
 
-![Inputfield Page Source](sourcecode.png)
+![Inputfield Page Source](https://github.com/Da-Fecto/InputfieldSourceCode/sourcecode.png)
