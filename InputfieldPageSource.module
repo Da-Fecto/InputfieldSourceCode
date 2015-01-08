@@ -1,0 +1,97 @@
+<?php
+
+/**
+* ProcessWire Inputfield that shows the current page markup source code.
+*
+*
+* @author Martijn Geerts
+*
+* ProcessWire 2.x
+* Copyright (C) 2015 by Ryan Cramer
+* Licensed under GNU/GPL v2, see LICENSE.TXT
+*
+* http://processwire.com
+*
+*/
+class InputfieldPageSource extends Inputfield {
+
+    const defaultRows = 5;
+
+    public static function getModuleInfo() {
+        return array(
+        'title' => __('Inputfield Page Source', __FILE__),
+        'version' => '0.0.5',
+        'summary' => __('Displays the current page markup source code in an inputfied.', __FILE__),
+        'author' => 'Martijn Geerts',
+        'installs' => 'FieldtypePageSource',
+        );
+    }
+
+    public function __construct() {
+        parent::__construct();
+    }
+
+    public function init() {
+
+        $this->setAttribute('rows', self::defaultRows);
+
+        $basename = 'zeroclipboard-2.2.0/dist/';
+        $config = $this->config;
+        $moduleName = $this->className();
+        $moduleURL = $config->urls->$moduleName;
+
+        $config->styles->append($moduleURL . $moduleName . '.css');
+        $config->scripts->append($moduleURL . $basename . 'ZeroClipboard.js');
+        $config->scripts->append($moduleURL . $moduleName . '.js');
+    }
+
+    public function ___render() {
+
+        $attributes = parent::getAttributes();
+        $value = $attributes['value'];
+        $rows = $attributes['rows'];
+        $attributes['class'] = !$attributes['rows'] ? 'hide' : 'show';
+
+        return
+            "<textarea" . $this->getAttrStr($attributes) . " disabled>" . htmlspecialchars($value) . "</textarea>" .
+            "<button class='ui-button ui-widget ui-state-default ui-corner-all'>" .
+            "<span class='ui-button-text'>" .
+            $this->_('Copy to clipboard') .
+            "</span>" .
+            "</button>" .
+            "<span class='notes hide'>" .
+            $this->_('page source copied') .
+            "</span>";
+    }
+
+    public function getAttrStr($array) {
+        $out = '';
+        foreach($array as $key => $value) {
+            if ($key === 'value') continue;
+            $out .= " {$key}='{$value}'";
+        }
+        return $out;
+    }
+
+    public function ___getConfigInputfields() {
+        $inputfields = parent::___getConfigInputfields();
+
+        // remove required as it is auto populated
+        $f = $inputfields->getChildByName('required');
+        $inputfields->remove($f);
+
+        $field = $this->modules->get('InputfieldInteger');
+        $field->setAttribute('name', 'rows');
+        $field->label = $this->_('Rows');
+        $field->setAttribute('value', $this->attr('rows') > 0 ? $this->attr('rows') : self::defaultRows);
+        $field->setAttribute('size', 3);
+        $field->description = $this->_('The number of rows initially shown for this field.');
+        $field->notes = $this->_('When set to 0 and the “copy button” fails the textarea will be set to 5 rows. (Copy to clipboard depends on Flash)');
+
+        if($field->attr('value') == self::defaultRows) $field->collapsed = Inputfield::collapsedYes;
+        $inputfields->append($field);
+
+        return $inputfields;
+    }
+
+}

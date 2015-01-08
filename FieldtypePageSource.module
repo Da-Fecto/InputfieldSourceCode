@@ -1,0 +1,117 @@
+<?php
+
+/**
+* ProcessWire Fieldtype that gets the current page markup source code.
+*
+* Note that this is a runtime-only field and can't be queried via selectors since its value
+* only exists at runtime.
+*
+* @author Martijn Geerts
+*
+* ProcessWire 2.x
+* Copyright (C) 2015 by Ryan Cramer
+* Licensed under GNU/GPL v2, see LICENSE.TXT
+*
+* http://processwire.com
+*
+*/
+
+class FieldtypePageSource extends Fieldtype {
+
+    public static function getModuleInfo() {
+        return array(
+            'title' => __('Fieldtype Page Source', __FILE__),
+            'version' => '0.0.5',
+            'summary' => __('Gets the current page markup source code for the inputfied.', __FILE__),
+            'author' => 'Martijn Geerts',
+            'requires' => 'InputfieldPageSource',
+        );
+    }
+
+    // needed here for compatiblity
+    public function init() {}
+
+    /**
+    * Get the rendered string output from $page->render()
+    *
+    * @return (string) Raw markup from render
+    *
+    */
+    protected function getPageSource(Page $page) {
+        // Outputformatting is set to true by /wire/modules/PageRender.module __renderPage()
+        return $page->render();
+    }
+
+    /**
+    * The following functions are defined as replacements to keep this fieldtype out of the DB
+    *
+    */
+
+    public function sanitizeValue(Page $page, Field $field, $value) {
+        return $value;
+    }
+
+    public function getInputfield(Page $page, Field $field) {
+        $inputfield = wire('modules')->get('InputfieldPageSource');
+        return $inputfield;
+    }
+
+    public function ___wakeupValue(Page $page, Field $field, $value) {
+        return $this->getPageSource($page);
+    }
+
+    public function ___sleepValue(Page $page, Field $field, $value) {
+        return $this->getPageSource($page);
+    }
+
+    public function getLoadQuery(Field $field, DatabaseQuerySelect $query) {
+        // prevent loading from DB
+        return $query;
+    }
+
+    public function ___loadPageField(Page $page, Field $field) {
+        // generate value at runtime rather than loading from DB
+        return $this->getPageSource($page);
+    }
+
+    public function ___savePageField(Page $page, Field $field) {
+        // prevent saving of field
+        return true;
+    }
+
+    public function ___deletePageField(Page $page, Field $field) {
+        // deleting of page field not necessary
+        return true;
+    }
+
+    public function ___deleteField(Field $field) {
+        // deleting of field not necessary
+        return true;
+    }
+
+    public function getDatabaseSchema(Field $field) {
+        // no database schema necessary
+        return array();
+    }
+
+    public function ___createField(Field $field) {
+        // nothing necessary to create the field
+        return true;
+    }
+
+    public function getMatchQuery($query, $table, $subfield, $operator, $value) {
+        // we don't allow this field to be queried
+        throw new WireException("Field '{$query->field->name}' is runtime and not queryable");
+    }
+
+    public function ___getCompatibleFieldtypes(Field $field) {
+        // no fieldtypes are compatible
+        return new Fieldtypes();
+    }
+
+    public function getLoadQueryAutojoin(Field $field, DatabaseQuerySelect $query) {
+        // we don't allow this field to be autojoined
+        return null;
+    }
+
+}

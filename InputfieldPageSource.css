@@ -1,0 +1,32 @@
+.InputfieldPageSource .InputfieldContent > button {
+    padding: 0.1em 0.555em;
+    outline: none;
+}
+
+.InputfieldPageSource .InputfieldContent > button span {
+    font-weight: normal;
+    font-size: 0.85em;
+}
+
+.InputfieldPageSource textarea.hide {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: 0;
+    width: 0;
+    position: absolute;
+    left: -99999px;
+}
+
+.InputfieldPageSource .notes.hide {
+    -ms-transition: all .85s ease-in;
+    -o-transition: all .85s ease-in;
+    transition: all .85s ease-in;
+    opacity: 0;
+    float: right;
+}
+
+.InputfieldPageSource .notes {
+    opacity: 1;
+    float: right;
+}
