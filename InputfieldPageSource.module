@@ -20,7 +20,7 @@ class InputfieldPageSource extends Inputfield {
     public static function getModuleInfo() {
         return array(
         'title' => __('Inputfield Page Source', __FILE__),
-        'version' => '0.0.5',
+        'version' => '0.0.6',
         'summary' => __('Displays the current page markup source code in an inputfied.', __FILE__),
         'author' => 'Martijn Geerts',
         'installs' => 'FieldtypePageSource',
@@ -53,7 +53,7 @@ class InputfieldPageSource extends Inputfield {
         $attributes['class'] = !$attributes['rows'] ? 'hide' : 'show';
 
         return
-            "<textarea" . $this->getAttrStr($attributes) . " disabled>" . htmlspecialchars($value) . "</textarea>" .
+            "<textarea" . $this->getAttrStr($attributes) . " readonly>" . htmlspecialchars($value) . "</textarea>" .
             "<button class='ui-button ui-widget ui-state-default ui-corner-all'>" .
             "<span class='ui-button-text'>" .
             $this->_('Copy to clipboard') .

@@ -7,6 +7,11 @@ $(function () {
         $textarea,
         $button;
 
+
+    $(".InputfieldPageSource textarea").on('focus', function () {
+        $(this).select();
+    });
+
     // copy to clipboad button
     $copyButton.on('click', function (event) {
         event.preventDefault();
@@ -27,7 +32,6 @@ $(function () {
         client.on('aftercopy', function (event) {
             $button = $(event.target);
             $button.parent().find('.notes').addClass('hide');
-
             window.setTimeout(function () {
                 $button.removeClass('ui-state-active');
             }, 330);

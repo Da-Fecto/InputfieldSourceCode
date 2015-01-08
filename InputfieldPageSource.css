@@ -8,6 +8,12 @@
     font-size: 0.85em;
 }
 
+.InputfieldPageSource textarea {
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 13px;
+    padding: 0;
+}
+
 .InputfieldPageSource textarea.hide {
     border: 0;
     padding: 0;
