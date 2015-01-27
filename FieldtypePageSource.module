@@ -21,7 +21,7 @@ class FieldtypePageSource extends Fieldtype {
     public static function getModuleInfo() {
         return array(
             'title' => __('Fieldtype Page Source', __FILE__),
-            'version' => '0.0.5',
+            'version' => '0.0.6',
             'summary' => __('Gets the current page markup source code for the inputfied.', __FILE__),
             'author' => 'Martijn Geerts',
             'requires' => 'InputfieldPageSource',
@@ -38,8 +38,7 @@ class FieldtypePageSource extends Fieldtype {
     *
     */
     protected function getPageSource(Page $page) {
-        // Outputformatting is set to true by /wire/modules/PageRender.module __renderPage()
-        return $page->render();
+        return file_get_contents($page->httpURL);
     }
 
     /**
