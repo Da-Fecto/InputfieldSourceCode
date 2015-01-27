@@ -20,7 +20,7 @@ class InputfieldPageSource extends Inputfield {
     public static function getModuleInfo() {
         return array(
         'title' => __('Inputfield Page Source', __FILE__),
-        'version' => '0.0.6',
+        'version' => '0.0.7',
         'summary' => __('Displays the current page markup source code in an inputfied.', __FILE__),
         'author' => 'Martijn Geerts',
         'installs' => 'FieldtypePageSource',
