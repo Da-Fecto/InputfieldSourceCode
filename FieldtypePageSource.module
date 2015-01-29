@@ -38,7 +38,9 @@ class FieldtypePageSource extends Fieldtype {
     *
     */
     protected function getPageSource(Page $page) {
-        return file_get_contents($page->httpURL);
+        if ($page->status == Page::statusOn) {
+            return file_get_contents($page->httpURL);
+        }
     }
 
     /**
