@@ -1,7 +1,7 @@
 # NOTE
 
 This module used to use zeroclipboard-2.2.0. GitHub found a potential security vulnerabilities in this dependency.
-I removed zeroclipboard-2.2.0. from my pakage. To make this pakage work again please use a [zeroclipboard](https://github.com/zeroclipboard/zeroclipboard) pakage without this vulnerability.
+I removed zeroclipboard-2.2.0. from my pakage. To make this pakage work again please use an other [zeroclipboard](https://github.com/zeroclipboard/zeroclipboard) pakage.
 
 # Inputfield Page Source
 
